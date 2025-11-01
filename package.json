@@ -1,0 +1,70 @@
+{
+  "name": "eslint-plugin-prefer-object-params",
+  "version": "1.0.0",
+  "description": "ESLint plugin that enforces object-only parameters for functions",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "clean": "rm -rf lib",
+    "prebuild": "pnpm clean",
+    "prepare": "pnpm build",
+    "prepublishOnly": "pnpm run test && pnpm run lint"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "object-parameters",
+    "parameters",
+    "typescript",
+    "eslint-config",
+    "formatter",
+    "lint",
+    "style"
+  ],
+  "author": "Jag Reehal <jag@jagreehal.com>",
+  "homepage": "https://github.com/jagreehal/eslint-plugin-prefer-object-params#readme",
+  "bugs": {
+    "url": "https://github.com/jagreehal/eslint-plugin-prefer-object-params/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jagreehal/eslint-plugin-prefer-object-params.git"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@total-typescript/ts-reset": "^0.6.1",
+    "@total-typescript/tsconfig": "^1.0.4",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/node": "^24.9.2",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "@typescript-eslint/rule-tester": "^8.46.2",
+    "@typescript-eslint/utils": "^8.46.2",
+    "eslint": "9.39.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-unicorn": "^62.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2",
+    "vitest": "^4.0.6"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
