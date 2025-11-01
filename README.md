@@ -4,7 +4,7 @@ A humble ESLint plugin that gently nudges your codebase toward object parameters
 
 ## Why Object Parameters?
 
-We've all been there—you write a function with two parameters, then three, then four. Before you know it, you're playing parameter roulette:
+We've all been there. You write a function with two parameters, then three, then four. Before you know it, you're playing parameter roulette:
 
 ```js
 // Which order was it again? 🤔
@@ -27,13 +27,13 @@ createUser({
 
 The benefits compound over time:
 
-- **Self-documenting calls** - No more guessing parameter order
-- **Easy to extend** - Add new options without breaking existing calls
-- **Optional parameters** - Just leave them out, no need for `null` placeholders
-- **IDE-friendly** - Autocomplete shows you all available options
-- **Refactor-safe** - Rename or reorder without breaking call sites
+- **Self-documenting calls**: No more guessing parameter order
+- **Easy to extend**: Add new options without breaking existing calls
+- **Optional parameters**: Just leave them out, no need for `null` placeholders
+- **IDE-friendly**: Autocomplete shows you all available options
+- **Refactor-safe**: Rename or reorder without breaking call sites
 
-> **Note:** This is an opinionated pattern. It trades a bit of verbosity for long-term maintainability. Like all patterns, it's not right for every function—which is why we've made it easy to configure.
+> **Note:** This is an opinionated pattern. It trades a bit of verbosity for long-term maintainability. Like all patterns, it's not right for every function, which is why we've made it easy to configure.
 
 ---
 
@@ -98,7 +98,7 @@ The rule is designed to be flexible. Here's how to adapt it to your codebase:
 
 ### Excluding Files and Directories
 
-Use ESLint's standard `files` and `ignores` options—this works just like any other ESLint rule:
+Use ESLint's standard `files` and `ignores` options. This works just like any other ESLint rule:
 
 ```js
 // eslint.config.js
@@ -162,10 +162,10 @@ Fine-tune the rule with these options:
 
 **Recommended defaults** (all enabled by default):
 
-- `ignoreSingleParam: true` - Single object parameters are already self-documenting
-- `ignoreTestFiles: true` - Test files commonly use positional parameters (Jest/Vitest callbacks, mocks)
-- `ignoreConstructors: true` - Constructors typically follow class conventions
-- `ignoreNoParams: true` - Zero-parameter functions don't need refactoring
+- `ignoreSingleParam: true`: Single object parameters are already self-documenting
+- `ignoreTestFiles: true`: Test files commonly use positional parameters (Jest/Vitest callbacks, mocks)
+- `ignoreConstructors: true`: Constructors typically follow class conventions
+- `ignoreNoParams: true`: Zero-parameter functions don't need refactoring
 
 **Common patterns:**
 
@@ -190,17 +190,17 @@ We made some pragmatic choices about what to flag:
 
 ✅ **Ignored by default:**
 
-- Functions with **no parameters** - `function foo() {}`
-- Class **constructors** - They're often constrained by framework conventions
-- **TypeScript `this` parameters** - These are type annotations, not real parameters
-- **Rest parameters** - `function foo(...args) {}`
-- **Array destructuring** - `function foo([a, b]) {}`
+- Functions with **no parameters**: `function foo() {}`
+- Class **constructors**: They're often constrained by framework conventions
+- **TypeScript `this` parameters**: These are type annotations, not real parameters
+- **Rest parameters**: `function foo(...args) {}`
+- **Array destructuring**: `function foo([a, b]) {}`
 
 ❌ **Flagged by default:**
 
-- Functions with multiple regular parameters - `function foo(a, b) {}`
-- Functions with default parameters - `function foo(a = 1, b = 2) {}`
-- Mixed parameters - `function foo({ options }, flag) {}`
+- Functions with multiple regular parameters: `function foo(a, b) {}`
+- Functions with default parameters: `function foo(a = 1, b = 2) {}`
+- Mixed parameters: `function foo({ options }, flag) {}`
 
 ---
 
@@ -253,7 +253,7 @@ The `ignoreFunctions` and `ignoreMethods` options support a surprising variety o
 ### ✅ Valid Code
 
 ```js
-// Object parameters - the happy path
+// Object parameters: the happy path
 function createUser({ name, email, age }) {
   // Self-documenting and easy to extend
 }
@@ -287,7 +287,7 @@ class User {
 The rule will flag these patterns:
 
 ```js
-// Multiple parameters - hard to remember order
+// Multiple parameters: hard to remember order
 function createUser(name, email, age, isAdmin) {
   // ❌ Which parameter is which?
 }
@@ -307,7 +307,7 @@ function greet({ greeting = "Hello", name = "World" } = {}) {
   // ✅ Named and optional
 }
 
-// Mixed parameters - inconsistent
+// Mixed parameters: inconsistent
 function processOrder({ items, total }, shouldNotify) {
   // ❌ Why is shouldNotify separate?
 }
@@ -350,7 +350,7 @@ export default [
 The rule understands TypeScript's explicit `this` parameter and won't count it as a violation:
 
 ```ts
-// ✅ Valid - 'this' is a type annotation, not a real parameter
+// ✅ Valid: 'this' is a type annotation, not a real parameter
 function handleEvent(this: HTMLElement, { type, target }: Event) {
   console.log(this, type, target);
 }
@@ -489,7 +489,7 @@ pnpm lint
 
 **Check 1:** Is it in `ignoreFunctions` or `ignoreMethods`?
 ```js
-// ❌ Won't work - function name must match exactly
+// ❌ Won't work: function name must match exactly
 ignoreFunctions: ['MyFunction']
 
 // ✅ Works
@@ -534,7 +534,7 @@ This is better done manually or with a dedicated refactoring tool to ensure corr
 
 ### Performance impact on large codebases?
 
-The rule is lightweight—it only analyzes function signatures, not function bodies. Performance should be negligible even on large codebases. If you notice slowness, it's likely from other ESLint rules or the TypeScript parser.
+The rule is lightweight. It only analyzes function signatures, not function bodies. Performance should be negligible even on large codebases. If you notice slowness, it's likely from other ESLint rules or the TypeScript parser.
 
 ### Why are test files ignored by default?
 
@@ -703,7 +703,7 @@ Feel free to:
 
 This plugin was built to solve a real problem we encountered while building consistent APIs. It's opinionated by design, but we've tried to make it flexible enough to adapt to your needs.
 
-If it helps your team write more maintainable code, we've done our job. If not, that's okay too—not every pattern fits every codebase.
+If it helps your team write more maintainable code, we've done our job. If not, that's okay too. Not every pattern fits every codebase.
 
 ---
 
