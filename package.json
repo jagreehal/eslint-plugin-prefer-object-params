@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-prefer-object-params",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ESLint plugin that enforces object-only parameters for functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,12 +23,16 @@
     "eslintplugin",
     "eslint-plugin",
     "object-parameters",
+    "prefer-object-params",
     "parameters",
+    "api-design",
+    "function-signatures",
     "typescript",
     "eslint-config",
     "formatter",
     "lint",
-    "style"
+    "style",
+    "code-quality"
   ],
   "author": "Jag Reehal <jag@jagreehal.com>",
   "homepage": "https://github.com/jagreehal/eslint-plugin-prefer-object-params#readme",
@@ -50,6 +54,7 @@
     "@total-typescript/tsconfig": "^1.0.4",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/node": "^24.9.2",
+    "@types/picomatch": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
     "@typescript-eslint/rule-tester": "^8.46.2",
@@ -66,5 +71,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "picomatch": "^4.0.3"
   }
 }

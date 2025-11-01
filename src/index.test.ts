@@ -169,6 +169,28 @@ describe('prefer-object-params', () => {
 
         // TypeScript 'this' parameter with rest params
         { code: 'function foo(this: SomeType, ...args: any[]) {}' },
+
+        // Ignored by ignoreFiles glob patterns
+        {
+          code: 'function foo(a, b) {}',
+          filename: 'src/legacy/old-code.js',
+          options: [{ ignoreFiles: ['**/legacy/**'] }],
+        },
+        {
+          code: 'function bar(x, y, z) {}',
+          filename: 'test-utils.js',
+          options: [{ ignoreFiles: ['test-*.js'] }],
+        },
+        {
+          code: 'function baz(p, q) {}',
+          filename: 'src/foo/bar.js',
+          options: [{ ignoreFiles: ['**/foo/*.js'] }],
+        },
+        {
+          code: 'function qux(a, b, c, d) {}',
+          filename: 'a/foo/b/c/bar.js',
+          options: [{ ignoreFiles: ['**/foo/**/bar.js'] }],
+        },
       ],
       invalid: [
         // Multiple regular parameters
@@ -189,9 +211,10 @@ describe('prefer-object-params', () => {
           errors: [{ messageId: 'useObjectParams' }],
         },
 
-        // Function with single param when ignoreSingleParam is false
+        // Function with single param when ignoreSingleParam is explicitly false
         {
           code: 'function foo(a) {}',
+          options: [{ ignoreSingleParam: false }],
           errors: [{ messageId: 'useObjectParams' }],
         },
 

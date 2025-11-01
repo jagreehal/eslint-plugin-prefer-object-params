@@ -10,6 +10,7 @@
 
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
+import picomatch from 'picomatch';
 
 /** Configuration options for the prefer-object-params rule */
 export interface RuleOptions {
@@ -23,6 +24,10 @@ export interface RuleOptions {
   ignoreSingleParam?: boolean;
   /** Whether to ignore functions with no parameters */
   ignoreNoParams?: boolean;
+  /** Whether to ignore test files (files matching test.* or spec.* patterns) */
+  ignoreTestFiles?: boolean;
+  /** Glob patterns for files to ignore */
+  ignoreFiles?: string[];
 }
 
 type MessageIds = 'useObjectParams';
@@ -64,11 +69,20 @@ export const rule = createRule<Options, MessageIds>({
           type: 'boolean',
           description: 'Whether to ignore functions with no parameters',
         },
+        ignoreTestFiles: {
+          type: 'boolean',
+          description: 'Whether to ignore test files (files matching **/*.test.*, **/*.spec.*)',
+        },
+        ignoreFiles: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Glob patterns for files to ignore',
+        },
       },
       additionalProperties: false,
     }],
     messages: {
-      useObjectParams: 'Functions must use object parameters only. Use {{name}}({ param1, param2 }) instead of {{name}}(param1, param2)',
+      useObjectParams: 'Function \'{{name}}\' has multiple positional parameters [{{params}}]. Use object destructuring: {{name}}({{paramsObj}}) instead of {{name}}({{params}})',
     }
   },
   defaultOptions: [{}],
@@ -77,8 +91,39 @@ export const rule = createRule<Options, MessageIds>({
     const ignoreFunctions = new Set(options.ignoreFunctions || []);
     const ignoreMethods = new Set(options.ignoreMethods || []);
     const ignoreConstructors = options.ignoreConstructors ?? true;
-    const ignoreSingleParam = options.ignoreSingleParam ?? false;
+    const ignoreSingleParam = options.ignoreSingleParam ?? true; // Changed default to true
     const ignoreNoParams = options.ignoreNoParams ?? true;
+    const ignoreTestFiles = options.ignoreTestFiles ?? true; // Default to true
+    const ignoreFiles = options.ignoreFiles || [];
+
+    /**
+     * Checks if the current file should be ignored based on file patterns
+     */
+    function shouldIgnoreFile(): boolean {
+      if (!ignoreTestFiles && ignoreFiles.length === 0) {
+        return false;
+      }
+
+      const filename = context.getFilename();
+
+      // Check ignoreTestFiles default patterns
+      if (ignoreTestFiles) {
+        const testPattern = /\.(test|spec)\.(ts|tsx|js|jsx|mjs|cjs)$/i;
+        if (testPattern.test(filename)) {
+          return true;
+        }
+      }
+
+      // Check custom ignoreFiles patterns using picomatch
+      if (ignoreFiles.length > 0) {
+        const isMatch = picomatch(ignoreFiles);
+        if (isMatch(filename)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
 
     /**
      * Extracts the property name from a property key node
@@ -160,6 +205,9 @@ export const rule = createRule<Options, MessageIds>({
     }
 
     function checkParams(node: TSESTree.FunctionDeclaration | TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression) {
+      // Skip file entirely if it matches ignore patterns
+      if (shouldIgnoreFile()) return;
+      
       if (shouldIgnoreFunction(node)) return;
 
       const params = node.params;
@@ -180,7 +228,11 @@ export const rule = createRule<Options, MessageIds>({
       // Ignore if single param
       if (ignoreSingleParam && params.length === 1) return;
 
-      // Check if any param is NOT an object pattern, array pattern, or rest element
+      // Collect parameter names for error message (only violations, not allowed patterns)
+      const paramNames: string[] = [];
+      let firstViolationParam: TSESTree.Node | null = null;
+      
+      // First pass: collect all parameter names that are violations
       for (const param of params) {
         // Allow: ObjectPattern ({ a, b }), ArrayPattern ([a, b]), RestElement (...args)
         if (param.type === AST_NODE_TYPES.ObjectPattern ||
@@ -195,24 +247,48 @@ export const rule = createRule<Options, MessageIds>({
           continue;
         }
 
-        // For AssignmentPattern (default params), check the left side
-        if (param.type === AST_NODE_TYPES.AssignmentPattern) {
+        // Collect parameter name for error message
+        if (param.type === AST_NODE_TYPES.Identifier) {
+          paramNames.push(param.name);
+          if (!firstViolationParam) {
+            firstViolationParam = param;
+          }
+        } else if (param.type === AST_NODE_TYPES.AssignmentPattern) {
           const left = param.left;
           // Allow if left side is ObjectPattern or ArrayPattern
           if (left.type === AST_NODE_TYPES.ObjectPattern ||
               left.type === AST_NODE_TYPES.ArrayPattern) {
             continue;
           }
-          // If left side is Identifier, it's a regular param with default - should be flagged
+          // If left side is Identifier, it's a regular param with default - collect name
+          if (left.type === AST_NODE_TYPES.Identifier) {
+            paramNames.push(left.name);
+            if (!firstViolationParam) {
+              firstViolationParam = param;
+            }
+          }
         }
+      }
 
-        // Identifier or AssignmentPattern with Identifier - violates the rule
+      // Report if we found violations
+      if (firstViolationParam && paramNames.length > 0) {
+        const functionName = node.id?.name || 
+                            (node.parent && node.parent.type === AST_NODE_TYPES.VariableDeclarator && node.parent.id.type === AST_NODE_TYPES.Identifier ? node.parent.id.name : null) ||
+                            'function';
+        
+        // Format parameter names for error message
+        const paramsList = paramNames.join(', ');
+        const paramsObject = `{ ${paramNames.join(', ')} }`;
+        
         context.report({
-          node: param,
+          node: firstViolationParam,
           messageId: 'useObjectParams',
-          data: { name: node.id?.name || 'function' },
+          data: { 
+            name: functionName,
+            params: paramsList,
+            paramsObj: paramsObject,
+          },
         });
-        break; // Only report once per function
       }
     }
 
@@ -228,6 +304,14 @@ export const rule = createRule<Options, MessageIds>({
 const plugin = {
   rules: {
     'prefer-object-params': rule
+  },
+  configs: {
+    recommended: {
+      plugins: ['prefer-object-params'],
+      rules: {
+        'prefer-object-params/prefer-object-params': 'error',
+      },
+    },
   },
   meta: {
     name: 'eslint-plugin-prefer-object-params',
