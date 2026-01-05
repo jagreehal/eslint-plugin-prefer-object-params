@@ -41,7 +41,7 @@ importers:
         version: 8.52.0(eslint@9.39.2)(typescript@5.9.3)
       '@typescript-eslint/rule-tester':
         specifier: ^8.46.2
-        version: 8.51.0(eslint@9.39.2)(typescript@5.9.3)
+        version: 8.52.0(eslint@9.39.2)(typescript@5.9.3)
       '@typescript-eslint/utils':
         specifier: ^8.46.2
         version: 8.52.0(eslint@9.39.2)(typescript@5.9.3)
@@ -532,8 +532,8 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/rule-tester@8.51.0':
-    resolution: {integrity: sha512-iMEcUgzOcVhNo68VelLiZNdBGp91bG3CcLvFR0kJokMooRU82PkWT+ISGDHuph2eMnUucYkf6QTr71IFQ6aB+w==}
+  '@typescript-eslint/rule-tester@8.52.0':
+    resolution: {integrity: sha512-1STd9svWS+pVcOhYViSIBgUZxywTlAb60ivltS5WrHT2HoNXqlZrXhi9QcTpOLn41z0Oy+6cDZJoa9ORpTf1AA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -1619,11 +1619,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/rule-tester@8.51.0(eslint@9.39.2)(typescript@5.9.3)':
+  '@typescript-eslint/rule-tester@8.52.0(eslint@9.39.2)(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/parser': 8.51.0(eslint@9.39.2)(typescript@5.9.3)
-      '@typescript-eslint/typescript-estree': 8.51.0(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.51.0(eslint@9.39.2)(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.52.0(eslint@9.39.2)(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.52.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.52.0(eslint@9.39.2)(typescript@5.9.3)
       ajv: 6.12.6
       eslint: 9.39.2
       json-stable-stringify-without-jsonify: 1.0.1
