@@ -41,7 +41,7 @@ importers:
         version: 8.56.0(eslint@9.39.2)(typescript@5.9.3)
       '@typescript-eslint/rule-tester':
         specifier: ^8.46.2
-        version: 8.55.0(eslint@9.39.2)(typescript@5.9.3)
+        version: 8.56.0(eslint@9.39.2)(typescript@5.9.3)
       '@typescript-eslint/utils':
         specifier: ^8.46.2
         version: 8.56.0(eslint@9.39.2)(typescript@5.9.3)
@@ -553,11 +553,11 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/rule-tester@8.55.0':
-    resolution: {integrity: sha512-3/oWRUQr88O+MabXfcyHIhnxZXU/Gq8mbcqVoEM3bC4gRVejHq88T2KyNmhMn8AD3p/sLvtMi9d0Zp4f19HFrQ==}
+  '@typescript-eslint/rule-tester@8.56.0':
+    resolution: {integrity: sha512-1sa5dpun53chmUV/qpLm30zXFa6+7yloTzdYnSwnya3waam/XA8orej4PNH3i/dG+Y58HNPW8JspJUwtxmTApw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
 
   '@typescript-eslint/scope-manager@8.54.0':
     resolution: {integrity: sha512-27rYVQku26j/PbHYcVfRPonmOlVI6gihHtXFbTdB5sb6qA0wdAQAbyXFVarQ5t4HRojIz64IV90YtsjQSSGlQg==}
@@ -1687,11 +1687,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/rule-tester@8.55.0(eslint@9.39.2)(typescript@5.9.3)':
+  '@typescript-eslint/rule-tester@8.56.0(eslint@9.39.2)(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/parser': 8.55.0(eslint@9.39.2)(typescript@5.9.3)
-      '@typescript-eslint/typescript-estree': 8.55.0(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2)(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.2)(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2)(typescript@5.9.3)
       ajv: 6.12.6
       eslint: 9.39.2
       json-stable-stringify-without-jsonify: 1.0.1
