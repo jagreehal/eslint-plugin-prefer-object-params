@@ -44,7 +44,7 @@ importers:
         version: 8.58.0(eslint@10.1.0)(typescript@5.9.3)
       '@typescript-eslint/utils':
         specifier: ^8.46.2
-        version: 8.57.1(eslint@10.1.0)(typescript@5.9.3)
+        version: 8.58.0(eslint@10.1.0)(typescript@5.9.3)
       eslint:
         specifier: 10.1.0
         version: 10.1.0
@@ -1571,7 +1571,7 @@ snapshots:
       eslint: 10.1.0
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.4.0(typescript@5.9.3)
+      ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -1687,7 +1687,7 @@ snapshots:
       '@typescript-eslint/utils': 8.57.1(eslint@10.1.0)(typescript@5.9.3)
       debug: 4.4.3
       eslint: 10.1.0
-      ts-api-utils: 2.4.0(typescript@5.9.3)
+      ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -1705,7 +1705,7 @@ snapshots:
       '@typescript-eslint/types': 8.56.1
       '@typescript-eslint/visitor-keys': 8.56.1
       debug: 4.4.3
-      minimatch: 10.2.4
+      minimatch: 10.2.5
       semver: 7.7.4
       tinyglobby: 0.2.15
       ts-api-utils: 2.4.0(typescript@5.9.3)
